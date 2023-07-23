@@ -31,6 +31,9 @@ async function run() {
     const researchesCollection = client
       .db("admissionGuru")
       .collection("researches");
+    const bookingsCollection = client
+      .db("admissionGuru")
+      .collection("bookings");
 
     //colleges collection
     app.get("/searchColleges", async (req, res) => {
@@ -54,6 +57,19 @@ async function run() {
     //researches collection
     app.get("/researches", async (req, res) => {
       const result = await researchesCollection.find().toArray();
+      res.send(result);
+    });
+
+    //bookings collection
+    app.get("/allBookings/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const result = await bookingsCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    app.post("/bookings", async (req, res) => {
+      const result = await bookingsCollection.insertOne(req.body);
       res.send(result);
     });
 
