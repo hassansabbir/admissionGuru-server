@@ -65,7 +65,14 @@ async function run() {
       const email = req.params.email;
       const query = { email: email };
       const result = await bookingsCollection.find(query).toArray();
-      res.send(result);
+
+      const collegeName = result[0].collegeName;
+
+      const collegeQuery = { collegeName: collegeName };
+      const collegeData = await collegesCollection.findOne(collegeQuery);
+
+      const combinedData = { ...result, collegeData };
+      res.send(combinedData);
     });
 
     app.post("/bookings", async (req, res) => {
