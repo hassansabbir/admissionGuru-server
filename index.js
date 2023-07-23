@@ -31,7 +31,10 @@ async function run() {
 
     //colleges collection
     app.get("/colleges", async (req, res) => {
-      const result = await collegesCollection.find().toArray();
+      const search = req.query.search;
+      console.log(search);
+      const query = { collegeName: { $regex: search, $options: "i" } };
+      const result = await collegesCollection.find(query).toArray();
       res.send(result);
     });
     app.get("/details/:id", async (req, res) => {
