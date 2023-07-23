@@ -30,11 +30,15 @@ async function run() {
       .collection("colleges");
 
     //colleges collection
-    app.get("/colleges", async (req, res) => {
+    app.get("/searchColleges", async (req, res) => {
       const search = req.query.search;
       console.log(search);
       const query = { collegeName: { $regex: search, $options: "i" } };
       const result = await collegesCollection.find(query).toArray();
+      res.send(result);
+    });
+    app.get("/colleges", async (req, res) => {
+      const result = await collegesCollection.find().toArray();
       res.send(result);
     });
     app.get("/details/:id", async (req, res) => {
