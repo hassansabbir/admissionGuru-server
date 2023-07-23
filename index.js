@@ -28,6 +28,9 @@ async function run() {
     const collegesCollection = client
       .db("admissionGuru")
       .collection("colleges");
+    const researchesCollection = client
+      .db("admissionGuru")
+      .collection("researches");
 
     //colleges collection
     app.get("/searchColleges", async (req, res) => {
@@ -45,6 +48,12 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await collegesCollection.findOne(query);
+      res.send(result);
+    });
+
+    //researches collection
+    app.get("/researches", async (req, res) => {
+      const result = await researchesCollection.find().toArray();
       res.send(result);
     });
 
