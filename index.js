@@ -34,6 +34,7 @@ async function run() {
     const bookingsCollection = client
       .db("admissionGuru")
       .collection("bookings");
+    const reviewsCollection = client.db("admissionGuru").collection("reviews");
 
     //colleges collection
     app.get("/searchColleges", async (req, res) => {
@@ -101,6 +102,12 @@ async function run() {
         booking,
         options
       );
+      res.send(result);
+    });
+
+    //reviews collection
+    app.post("/reviews", async (req, res) => {
+      const result = await reviewsCollection.insertOne(req.body);
       res.send(result);
     });
 
