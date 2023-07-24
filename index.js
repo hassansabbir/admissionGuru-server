@@ -94,7 +94,7 @@ async function run() {
           subject: updatedBooking.subject,
           phone: updatedBooking.phone,
           bDate: updatedBooking.bDate,
-          address: updatedBooking.bDate,
+          address: updatedBooking.address,
         },
       };
       const result = await bookingsCollection.updateOne(
