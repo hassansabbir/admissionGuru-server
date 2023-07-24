@@ -66,7 +66,7 @@ async function run() {
       const query = { email: email };
       const result = await bookingsCollection.find(query).toArray();
 
-      const collegeName = result[0].collegeName;
+      const collegeName = result[0]?.collegeName;
 
       const collegeQuery = { collegeName: collegeName };
       const collegeData = await collegesCollection.findOne(collegeQuery);
@@ -77,6 +77,30 @@ async function run() {
 
     app.post("/bookings", async (req, res) => {
       const result = await bookingsCollection.insertOne(req.body);
+      res.send(result);
+    });
+
+    app.put("/bookings/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedBooking = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const booking = {
+        $set: {
+          name: updatedBooking.name,
+          email: updatedBooking.email,
+          collegeName: updatedBooking.collegeName,
+          subject: updatedBooking.subject,
+          phone: updatedBooking.phone,
+          bDate: updatedBooking.bDate,
+          address: updatedBooking.bDate,
+        },
+      };
+      const result = await bookingsCollection.updateOne(
+        filter,
+        booking,
+        options
+      );
       res.send(result);
     });
 
